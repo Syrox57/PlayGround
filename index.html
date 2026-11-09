@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#101524">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101524'/%3E%3Ctext x='32' y='47' text-anchor='middle' font-size='48' fill='%23e7bc6c'%3E✦%3C/text%3E%3C/svg%3E">
+  <title>Shards of Aether — aventura voxel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game-shell">
+    <canvas id="world" aria-label="Mundo de aventura voxel"></canvas>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Shards of Aether"><span class="brand-mark">✦</span><span>SHARDS <i>OF</i> AETHER<small>FRONTEIRA DOS CRISTAIS</small></span></a>
+      <div class="world-tag"><span class="live-dot"></span><span data-i18n="world">MUNDO VIVO</span><b>·</b><span>VALE DE LÚMEN</span></div>
+      <div class="top-actions"><button class="icon-btn" id="commandBtn" title="Comandos">/</button><button class="icon-btn" id="soundBtn" title="Som">♫</button><button class="icon-btn" id="helpBtn" title="Controles">?</button><button class="icon-btn" id="settingsBtn" title="Configurações">⚙</button></div>
+    </header>
+    <section class="hud-left">
+      <div class="player-card"><div class="avatar">✦<span class="level-badge">3</span></div><div class="player-info"><strong id="className">VANGUARDA AÉREA</strong><small><span data-i18n="level">NÍVEL</span> <span id="levelText">03</span> <i>·</i> PODER <span id="powerRank">12</span></small><div class="xp-track"><span id="xpFill"></span></div></div></div>
+      <div class="stat-row"><span class="heart">♥</span><div class="health-track"><span id="healthFill"></span></div><b id="healthText">100 / 100</b></div>
+      <div class="class-tools"><button id="classBtn" title="Trocar classe">✦ CLASSE</button><button id="mountBtn" title="Invocar montaria">♞ MONTARIA</button></div>
+    </section>
+    <section class="quest-card"><div class="quest-icon">◇</div><div><small data-i18n="quest">AVENTURA ATUAL</small><strong id="questTitle">Ecos do vale</strong><p id="questDesc">Colete 3 cristais para despertar o portal.</p><div class="quest-progress"><span id="questFill"></span></div><em id="questCount">0 / 3 cristais</em></div></section>
+    <div class="minimap-frame"><div class="map-label"><span>▣</span> VALE DE LÚMEN <b>◉</b></div><canvas id="minimap" width="144" height="104"></canvas><div class="map-coords">ZONA 01 <span>● SEGURO</span></div></div>
+    <div class="toast" id="toast">Encontre os cristais brilhantes!</div>
+    <form class="command-bar hidden" id="commandForm" autocomplete="off"><span>/</span><input id="commandInput" type="text" placeholder="Comando… (/club, /drawdistance 800)" aria-label="Comando de chat" maxlength="120"><small>ENTER · ENVIAR</small></form>
+    <div class="center-message" id="centerMessage"></div>
+    <div class="bottom-hud"><div class="hotbar-label"><span data-i18n="inventory">INVENTÁRIO</span> <small>1–4</small></div><div class="hotbar"><button class="slot active" data-slot="0"><span class="item gem">◆</span><small>CRISTAL <b id="gemCount">0</b></small><kbd>1</kbd></button><button class="slot" data-slot="1"><span class="item potion">⚗</span><small>POÇÃO <b id="potionCount">2</b></small><kbd>2</kbd></button><button class="slot" data-slot="2"><span class="item block">▧</span><small>BLOCO <b id="blockCount">12</b></small><kbd>3</kbd></button><button class="slot" data-slot="3"><span class="item star">✦</span><small>ESSÊNCIA <b id="essenceCount">0</b></small><kbd>4</kbd></button></div><button id="gemBoxBtn" class="gem-box-btn">◇ CAIXA DE GEMAS <b id="gemBoxCount">0</b></button><div class="world-hint"><span>☀</span> <b>14:32</b><i>·</i> PRIMAVERA</div></div>
+    <div class="touch-controls" aria-label="Controles de toque"><div class="joystick" id="joystick"><div class="joy-ring"><div class="joy-knob" id="joyKnob"></div></div><span class="joy-label">MOVER</span></div><div class="touch-actions"><button class="action-btn attack" data-action="attack"><span>⚔</span><small>ATACAR</small></button><button class="action-btn skill" data-action="skill"><span>✦</span><small>HABILIDADE</small></button><button class="action-btn jump" data-action="jump"><span>↑</span><small>ESQUIVA</small></button><button class="action-btn interact" data-action="interact"><span>◉</span><small>USAR</small></button></div></div>
+    <div class="desktop-hint"><kbd>WASD</kbd> MOVER <kbd>ESPAÇO</kbd> ESQUIVA <kbd>J</kbd> ATACAR <kbd>E</kbd> USAR</div>
+    <div class="modal-backdrop hidden" id="modalBackdrop"><section class="modal"><button class="modal-close" id="closeModal">×</button><div class="modal-kicker">✦ SHARDS OF AETHER</div><h1 id="modalTitle">Sua aventura começa aqui</h1><p id="modalText">Explore o vale, colete cristais e enfrente as criaturas da fenda. Encontre o portal para descobrir o que existe além.</p><div id="helpContent"><div class="control-list"><div><b>⌖</b><span><strong>Movimento</strong><small>WASD / setas / analógico</small></span></div><div><b>⚔</b><span><strong>Combate</strong><small>J / clique esquerdo / botão X</small></span></div><div><b>◉</b><span><strong>Interagir</strong><small>E / toque / botão A</small></span></div><div><b>✦</b><span><strong>Habilidade</strong><small>Q / botão Y</small></span></div></div><label class="language-label" for="languageSelect">IDIOMA / LANGUAGE</label><select id="languageSelect"><option value="pt">Português</option><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="pl">Polski</option><option value="ru">Русский</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="zh">简体中文</option></select></div><div id="settingsContent" class="modal-tools hidden"><label for="drawDistanceSetting">Distância de renderização <output id="drawDistanceValue">900</output></label><input id="drawDistanceSetting" type="range" min="300" max="2000" step="100" value="900"><label class="toggle-row"><span>Efeitos visuais</span><input id="fxSetting" type="checkbox" checked></label><p class="systems-toast">As opções são guardadas neste dispositivo.</p></div><div id="clubContent" class="modal-tools hidden"><p id="clubStatus" class="systems-toast">Sem clube criado neste dispositivo.</p><label for="clubNameInput">Nome do clube</label><input id="clubNameInput" type="text" maxlength="24" placeholder="Ex.: Construtores de Lúmen"><button class="tool-btn" id="createClubBtn">Criar clube local</button><label for="inviteNameInput">Convidar jogador</label><div class="inline-field"><input id="inviteNameInput" type="text" maxlength="24" placeholder="Nome do jogador"><button class="tool-btn" id="inviteBtn">Convidar</button></div><button class="tool-btn" id="primaryClubBtn">Definir como clube principal</button><p id="clubFixtures" class="systems-toast">Fixtures demonstrativas desbloqueiam com níveis do clube local.</p><button class="tool-btn" id="craneBtn">Combat Crane · 10 moedas · buff 60 s</button><p class="systems-toast">Progrida derrotando guardiões e concluindo ruínas. Tudo é local: não há serviço online, contas ou jogadores reais.</p></div><button class="primary-btn" id="resumeBtn">VAMOS EXPLORAR <span>→</span></button><p class="compat">CONTROLES TOUCH · GAMEPAD · TECLADO E MOUSE</p></section></div>
+    <div class="level-flash" id="levelFlash"><span>✦</span><b>NOVO NÍVEL!</b><small>NÍVEL 04</small></div>
+    <div class="gamepad-status" id="gamepadStatus">CONTROLE CONECTADO</div>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
